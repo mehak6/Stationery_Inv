@@ -1,0 +1,105 @@
+{
+  "name": "stationery-business-manager",
+  "version": "2.0.0",
+  "description": "Complete Stationery Business Management System with SQLite Database",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "electron": "electron .",
+    "electron-dev": "NODE_ENV=development electron .",
+    "build-electron": "electron-builder --win",
+    "build-pkg": "pkg . --out-path dist-pkg --targets node18-win-x64",
+    "build-hybrid": "npm run build-pkg && electron-builder --win",
+    "install-deps": "npm install",
+    "init-db": "node init-db.js",
+    "setup": "npm install && node init-db.js && echo 'Setup complete! Run: npm start'",
+    "reset-db": "rm -f stationery_business.db && node init-db.js",
+    "backup-db": "cp stationery_business.db backup_$(date +%Y%m%d_%H%M%S).db && echo 'Database backed up!'",
+    "check-db": "echo 'Checking database...' && node -e \"const sqlite3=require('sqlite3'); const db=new sqlite3.Database('stationery_business.db'); db.all('SELECT name FROM sqlite_master WHERE type=\\\"table\\\"', (e,r) => { console.log('Tables:', r?.map(t=>t.name) || 'None'); db.close(); });\"",
+    "test": "echo 'No tests specified yet'"
+  },
+  "keywords": [
+    "stationery",
+    "business",
+    "inventory",
+    "accounting",
+    "sqlite",
+    "express",
+    "nodejs"
+  ],
+  "author": "Business Manager System",
+  "license": "MIT",
+  "bin": {
+    "stationery-business-manager": "./server.js"
+  },
+  "pkg": {
+    "scripts": [
+      "server.js",
+      "init-db.js"
+    ],
+    "assets": [
+      "public/**/*",
+      "stationery_business.db"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist-pkg"
+  },
+  "build": {
+    "appId": "com.stationery.business.manager",
+    "productName": "Stationery Business Manager",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/favicon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "public/favicon.ico",
+      "uninstallerIcon": "public/favicon.ico",
+      "installerHeaderIcon": "public/favicon.ico"
+    },
+    "files": [
+      "main.js",
+      "server.js",
+      "init-db.js",
+      "public/**/*",
+      "stationery_business.db",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "stationery_business.db",
+        "to": "stationery_business.db"
+      }
+    ]
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "electron": "^37.3.1",
+    "electron-builder": "^26.0.12",
+    "nodemon": "^3.0.1",
+    "pkg": "^5.8.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "stationery-business-manager"
+  },
+  "bugs": {
+    "url": "https://github.com/your-repo/issues"
+  },
+  "homepage": "https://github.com/your-repo#readme"
+}

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: stationery-business-manager
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          type: web
+          name: stationery-business-manager
+          property: port
+      - key: DATABASE_URL
+        fromService:
+          type: pgsql
+          name: stationery-db
+          property: connectionString
+
+  - type: pgsql
+    name: stationery-db
+    plan: starter
+    ipAllowList: [] # Only accessible by the web service

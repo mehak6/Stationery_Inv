@@ -15,11 +15,11 @@ services:
           property: port
       - key: DATABASE_URL
         fromService:
-          type: pgsql
+          type: postgres
           name: stationery-db
           property: connectionString
 
-  - type: pgsql
+  - type: postgres
     name: stationery-db
     plan: starter
     ipAllowList: [] # Only accessible by the web service

@@ -4,7 +4,7 @@ services:
     env: node
     plan: starter
     buildCommand: npm install
-    startCommand: npm run start:prod
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -13,13 +13,3 @@ services:
           type: web
           name: stationery-business-manager
           property: port
-      - key: DATABASE_URL
-        fromService:
-          type: postgres
-          name: stationery-db
-          property: connectionString
-
-  - type: postgres
-    name: stationery-db
-    plan: starter
-    ipAllowList: [] # Only accessible by the web service
